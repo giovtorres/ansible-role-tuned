@@ -1,0 +1,14 @@
+---
+sudo: required
+language: python
+services:
+  - docker
+before_install:
+  - pip install ansible
+  - ansible-galaxy init giovtorres.epel
+install:
+  - pip install molecule docker testinfra>=1.6.0
+script:
+  - molecule test
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
