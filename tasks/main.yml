@@ -1,0 +1,27 @@
+---
+- name: Install tuned.
+  yum:
+    name: tuned
+    state: present
+
+- name: Start tuned and enable at boottime.
+  service:
+    name: tuned
+    state: started
+    enabled: yes
+
+- name: Get tuned profile.
+  command: /usr/sbin/tuned-adm active
+  register: tuned_active
+  changed_when: false
+
+- name: Set built-in tuned profile.
+  command: "/usr/sbin/tuned-adm profile {{ tuned_active_builtin_profile }}"
+  when:
+    - not tuned_active_custom_profile
+    - tuned_active_builtin_profile not in tuned_active.stdout
+
+- name: Build and activate custom tuned profile.
+  include: configure-custom-profile.yml
+  when:
+    - tuned_active_custom_profile

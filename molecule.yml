@@ -1,0 +1,11 @@
+---
+driver:
+  name: docker
+docker:
+  containers:
+    - name: ansible-role-tuned-centos7
+      image: centos/systemd
+      image_version: latest
+      privileged: True
+verifier:
+  name: testinfra

@@ -1,0 +1,22 @@
+---
+- name: Create custom tuned profile directory.
+  file:
+    path: "/etc/tuned/{{ tuned_active_custom_profile.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Copy custom profile configuration file.
+  template:
+    src: custom_profile.conf.j2
+    dest: "/etc/tuned/{{ tuned_active_custom_profile.name }}/tuned.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart tuned
+
+- name: Set custom tuned profile.
+  command: "/usr/sbin/tuned-adm profile {{ tuned_active_custom_profile.name }}"
+  when:
+    - tuned_active_custom_profile.name not in tuned_active.stdout

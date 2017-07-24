@@ -1,0 +1,14 @@
+galaxy_info:
+  author: Giovanni Torres
+  description: Installs and configures tuned, a system tuning tool.
+  license: license BSD
+  min_ansible_version: 1.6
+  platforms:
+    - name: EL
+      versions:
+      - 7
+  galaxy_tags:
+    - system
+    - performance
+    - tuned
+dependencies: []
