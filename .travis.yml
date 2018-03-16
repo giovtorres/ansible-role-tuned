@@ -7,7 +7,7 @@ before_install:
   - pip install ansible
   - ansible-galaxy init giovtorres.epel
 install:
-  - pip install molecule docker testinfra>=1.6.0
+  - pip install molecule 'docker<3.0' testinfra>=1.6.0
 script:
   - molecule test
 notifications:
