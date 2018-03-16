@@ -9,6 +9,6 @@ before_install:
 install:
   - pip install molecule docker testinfra>=1.6.0
 script:
-  - molecule test
+  - molecule --debug test
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
