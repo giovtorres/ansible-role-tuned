@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Converge
+  hosts: all
   vars:
     tuned_active_custom_profile:
       name: my_custom_profile
@@ -21,4 +22,4 @@
             - option: transparent_hugepages
               value: never
   roles:
-    - ansible-role-tuned
+    - role: ansible-role-tuned
