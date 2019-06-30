@@ -1,0 +1,25 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    tuned_active_custom_profile:
+      name: my_custom_profile
+      sections:
+        - name: main
+          params:
+            - option: summary
+              value: Test
+            - option: include
+              value: throughput-performance
+        - name: sysctl
+          params:
+            - option: vm.dirty_ratio
+              value: 30
+            - option: vm.swappiness
+              value: 30
+        - name: vm
+          params:
+            - option: transparent_hugepages
+              value: never
+  roles:
+    - role: ansible-role-tuned
