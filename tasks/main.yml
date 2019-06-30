@@ -8,21 +8,21 @@
   service:
     name: tuned
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Get tuned profile.
   command: /usr/sbin/tuned-adm active
   register: tuned_active
   changed_when: false
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Set built-in tuned profile.
   command: "/usr/sbin/tuned-adm profile {{ tuned_active_builtin_profile }}"
   when:
-    - not tuned_active_custom_profile
+    - tuned_active_custom_profile | length == 0
     - tuned_active_builtin_profile not in tuned_active.stdout
 
 - name: Build and activate custom tuned profile.
   include: configure-custom-profile.yml
   when:
-    - tuned_active_custom_profile
+    - tuned_active_custom_profile | length > 0
