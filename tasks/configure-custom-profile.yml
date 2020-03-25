@@ -16,6 +16,18 @@
     mode: 0644
   notify: restart tuned
 
+- name: Copy script if defined.
+  copy:
+    src: "{{ item.params.0.value }}"
+    dest: "/etc/tuned/{{ tuned_active_custom_profile.name }}/{{ item.params.0.value }}"
+    owner: root
+    group: root
+    mode: 0755
+  when: 
+    - item.name == "script"
+  with_items: "{{ tuned_active_custom_profile.sections }}"
+  notify: restart tuned
+
 - name: Set custom tuned profile.
   command: "/usr/sbin/tuned-adm profile {{ tuned_active_custom_profile.name }}"
   when:
