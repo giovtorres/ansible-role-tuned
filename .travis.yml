@@ -4,7 +4,7 @@ language: python
 services:
   - docker
 install:
-  - pip install molecule[docker] testinfra>=3.0.0
+  - pip install molecule[docker] testinfra>=3.0.0 yamllint ansible-lint
 script:
   - molecule test --all
 notifications:

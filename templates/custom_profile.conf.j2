@@ -6,7 +6,9 @@
 {% for section in tuned_active_custom_profile.sections %}
 [{{ section.name }}]
 {% for item in section.params %}
+{% if item.enabled is not defined or item.enabled | bool %}
 {{ item.option }}={{ item.value }}
+{% endif %}
 {% endfor %}
 
 {% endfor %}

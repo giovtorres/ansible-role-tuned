@@ -7,6 +7,18 @@
     group: root
     mode: 0755
 
+- name: Create a script
+  template:
+    src: "script.j2"
+    dest: "/etc/tuned/{{ tuned_active_custom_profile.name }}/{{ item.params.0.value }}"
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - item.name == "script"
+  loop: "{{ tuned_active_custom_profile.sections }}"
+  notify: restart tuned
+
 - name: Copy custom profile configuration file.
   template:
     src: custom_profile.conf.j2
