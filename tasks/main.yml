@@ -23,6 +23,6 @@
     - tuned_active_builtin_profile not in tuned_active.stdout
 
 - name: Build and activate custom tuned profile.
-  include: configure-custom-profile.yml
+  include_tasks: configure-custom-profile.yml
   when:
     - tuned_active_custom_profile | length > 0
