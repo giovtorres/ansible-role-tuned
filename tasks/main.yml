@@ -1,6 +1,6 @@
 ---
 - name: Install tuned.
-  yum:
+  ansible.builtin.package:
     name: tuned
     state: present
 

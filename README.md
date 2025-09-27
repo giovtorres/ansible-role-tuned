@@ -4,7 +4,7 @@
 [![Ansible Role](https://img.shields.io/ansible/role/19447.svg)](https://galaxy.ansible.com/giovtorres/tuned/)
 
 Installs and configures the tuned daemon for setting system tuning profiles.
-Supported on EL7.
+Supported on EL7/8/9/10, and Debian/Ubuntu where tuned is available.
 
 ## Requirements
 
