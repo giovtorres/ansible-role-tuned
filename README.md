@@ -1,8 +1,5 @@
 # Ansible Role: Tuned
 
-[![Build Status](https://travis-ci.org/giovtorres/ansible-role-tuned.svg?branch=master)](https://travis-ci.org/giovtorres/ansible-role-tuned)
-[![Ansible Role](https://img.shields.io/ansible/role/19447.svg)](https://galaxy.ansible.com/giovtorres/tuned/)
-
 Installs and configures the tuned daemon for setting system tuning profiles.
 
 ## Requirements
@@ -11,10 +8,6 @@ Installs and configures the tuned daemon for setting system tuning profiles.
 - **Supported platforms**:
   - Enterprise Linux 9, 10 (Rocky Linux, RHEL, AlmaLinux)
   - Ubuntu 20.04 (Focal), 22.04 (Jammy), 24.04 (Noble)
-
-**Note**: EL 7 and EL 8 are no longer supported:
-- EL 7 reached End of Life in June 2024
-- EL 8 ships with Python 3.6, which is incompatible with Ansible 2.16+
 
 ## Role Variables
 

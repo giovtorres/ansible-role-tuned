@@ -68,15 +68,3 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
           MOLECULE_DISTRO: ${{ matrix.distro }}
-
-  notify:
-    name: Notify Galaxy
-    runs-on: ubuntu-latest
-    needs: [lint, molecule]
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: Trigger Galaxy import
-        run: |
-          curl -X POST https://galaxy.ansible.com/api/v1/notifications/ \
-            -H "Content-Type: application/json" \
-            -d '{"github_user": "${{ github.repository_owner }}", "github_repo": "${{ github.event.repository.name }}"}'
