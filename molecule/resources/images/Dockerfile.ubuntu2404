@@ -1,0 +1,28 @@
+FROM docker.io/ubuntu:24.04
+
+ENV container=podman
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install systemd and other required packages
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       systemd systemd-sysv \
+       python3 python3-pip sudo bash iproute2 ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Remove unnecessary systemd services
+RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
+    /etc/systemd/system/*.wants/* \
+    /lib/systemd/system/local-fs.target.wants/* \
+    /lib/systemd/system/sockets.target.wants/*udev* \
+    /lib/systemd/system/sockets.target.wants/*initctl* \
+    /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup.service \
+    /lib/systemd/system/systemd-update-utmp*
+
+# Enable systemd
+RUN systemctl set-default multi-user.target
+
+VOLUME [ "/sys/fs/cgroup" ]
+
+CMD ["/lib/systemd/systemd"]

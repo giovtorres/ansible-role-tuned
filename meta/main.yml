@@ -1,13 +1,21 @@
 ---
 galaxy_info:
+  role_name: tuned
+  namespace: giovtorres
   author: Giovanni Torres
   description: Installs and configures tuned, a system tuning tool.
   license: license BSD
-  min_ansible_version: 2.0
+  min_ansible_version: "2.16"
   platforms:
     - name: EL
       versions:
-        - 7
+        - "9"
+        - "10"
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - noble
   galaxy_tags:
     - system
     - performance

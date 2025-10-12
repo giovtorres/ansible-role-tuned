@@ -5,24 +5,25 @@
     state: present
 
 - name: Start tuned and enable at boottime.
-  service:
+  ansible.builtin.service:
     name: tuned
     state: started
     enabled: true
 
 - name: Get tuned profile.
-  command: /usr/sbin/tuned-adm active
+  ansible.builtin.command: /usr/sbin/tuned-adm active
   register: tuned_active
   changed_when: false
   ignore_errors: true
 
 - name: Set built-in tuned profile.
-  command: "/usr/sbin/tuned-adm profile {{ tuned_active_builtin_profile }}"
+  ansible.builtin.command: "/usr/sbin/tuned-adm profile {{ tuned_active_builtin_profile }}"
   when:
     - tuned_active_custom_profile | length == 0
     - tuned_active_builtin_profile not in tuned_active.stdout
+  changed_when: true
 
 - name: Build and activate custom tuned profile.
-  include_tasks: configure-custom-profile.yml
+  ansible.builtin.include_tasks: configure-custom-profile.yml
   when:
     - tuned_active_custom_profile | length > 0
