@@ -1,4 +1,9 @@
+---
 extends: default
+
+ignore: |
+  venv/
+  .ansible/
 
 rules:
   braces:
@@ -7,5 +12,11 @@ rules:
   brackets:
     max-spaces-inside: 1
     level: error
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: false
   line-length: disable
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
   truthy: disable

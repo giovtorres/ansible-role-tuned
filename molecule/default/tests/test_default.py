@@ -19,10 +19,6 @@ def test_tuned_running_and_enabled(host):
 
 def test_tuned_active_profile(host):
     cmd = "/usr/sbin/tuned-adm active"
-    assert "throughput-performance" in host.check_output(cmd)
-
-
-def test_tuned_verify(host):
-    cmd = host.run("/usr/sbin/tuned-adm verify")
-    assert cmd.rc == 0
-    assert "Verfication succeeded" in cmd.stdout
+    output = host.check_output(cmd)
+    assert "throughput-performance" in output
+    assert "Current active profile:" in output

@@ -1,22 +1,31 @@
 ---
+- name: Set tuned profile directory path.
+  ansible.builtin.set_fact:
+    tuned_profile_base_dir: "{{ '/etc/tuned/profiles' if (ansible_distribution == 'Rocky' and ansible_distribution_major_version | int >= 10) else '/etc/tuned' }}"
+
 - name: Create custom tuned profile directory.
-  file:
-    path: "/etc/tuned/{{ tuned_active_custom_profile.name }}"
+  ansible.builtin.file:
+    path: "{{ tuned_profile_base_dir }}/{{ tuned_active_custom_profile.name }}"
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Copy custom profile configuration file.
-  template:
+  ansible.builtin.template:
     src: custom_profile.conf.j2
-    dest: "/etc/tuned/{{ tuned_active_custom_profile.name }}/tuned.conf"
+    dest: "{{ tuned_profile_base_dir }}/{{ tuned_active_custom_profile.name }}/tuned.conf"
     owner: root
     group: root
-    mode: 0644
-  notify: restart tuned
+    mode: "0644"
+  register: profile_config
+
+- name: Get current active profile.
+  ansible.builtin.command: /usr/sbin/tuned-adm active
+  register: current_profile
+  changed_when: false
 
 - name: Set custom tuned profile.
-  command: "/usr/sbin/tuned-adm profile {{ tuned_active_custom_profile.name }}"
-  when:
-    - tuned_active_custom_profile.name not in tuned_active.stdout
+  ansible.builtin.command: "/usr/sbin/tuned-adm profile {{ tuned_active_custom_profile.name }}"
+  when: tuned_active_custom_profile.name not in current_profile.stdout
+  changed_when: true

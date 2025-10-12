@@ -4,15 +4,21 @@
 [![Ansible Role](https://img.shields.io/ansible/role/19447.svg)](https://galaxy.ansible.com/giovtorres/tuned/)
 
 Installs and configures the tuned daemon for setting system tuning profiles.
-Supported on EL7/8/9/10, and Debian/Ubuntu where tuned is available.
 
 ## Requirements
 
-None.
+- **Minimum Ansible version**: 2.16 (ansible-core 2.16+)
+- **Supported platforms**:
+  - Enterprise Linux 9, 10 (Rocky Linux, RHEL, AlmaLinux)
+  - Ubuntu 20.04 (Focal), 22.04 (Jammy), 24.04 (Noble)
+
+**Note**: EL 7 and EL 8 are no longer supported:
+- EL 7 reached End of Life in June 2024
+- EL 8 ships with Python 3.6, which is incompatible with Ansible 2.16+
 
 ## Role Variables
 
-The available built-in profiles on EL7 are: 
+The available built-in tuned profiles include: 
 
 - balanced
 - desktop

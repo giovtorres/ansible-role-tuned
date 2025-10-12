@@ -22,4 +22,4 @@
             - option: transparent_hugepages
               value: never
   roles:
-    - role: ansible-role-tuned
+    - role: giovtorres.tuned

@@ -1,0 +1,14 @@
+# Ansible and core dependencies
+# Note: ansible-core 2.16+ provides the engine (min version for this role)
+# ansible package 9.0+ includes ansible-core 2.16+
+ansible-core>=2.16,<2.19
+ansible>=9.0
+
+# Molecule and testing dependencies
+molecule>=6.0,<7.0
+molecule-plugins[podman]>=23.5,<24.0
+pytest-testinfra>=10.0,<11.0
+
+# Linting tools
+ansible-lint>=24.0,<25.0
+yamllint>=1.35,<2.0

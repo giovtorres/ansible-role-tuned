@@ -1,0 +1,4 @@
+---
+- name: Cleanup
+  hosts: all
+  tasks: []

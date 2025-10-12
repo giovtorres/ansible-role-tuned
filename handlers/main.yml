@@ -1,5 +1,5 @@
 ---
-- name: restart tuned
-  service:
+- name: Restart tuned
+  ansible.builtin.service:
     name: tuned
     state: restarted
