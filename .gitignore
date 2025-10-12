@@ -8,3 +8,4 @@ pytestdebug.log
 *.swp
 .ansible/
 venv/
+CLAUDE.md
