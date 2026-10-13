@@ -8,6 +8,9 @@ RUN dnf -y install \
     python3 python3-pip sudo bash iproute \
     && dnf clean all
 
+# Install pytest for testinfra verifier
+RUN pip3 install pytest testinfra
+
 VOLUME [ "/sys/fs/cgroup" ]
 
 CMD ["/usr/sbin/init"]

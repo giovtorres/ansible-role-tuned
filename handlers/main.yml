@@ -1,5 +1,0 @@
----
-- name: Restart tuned
-  ansible.builtin.service:
-    name: tuned
-    state: restarted

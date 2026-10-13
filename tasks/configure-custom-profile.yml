@@ -1,7 +1,11 @@
 ---
 - name: Set tuned profile directory path.
   ansible.builtin.set_fact:
-    tuned_profile_base_dir: "{{ '/etc/tuned/profiles' if (ansible_distribution == 'Rocky' and ansible_distribution_major_version | int >= 10) else '/etc/tuned' }}"
+    tuned_profile_base_dir: >-
+      {{ '/etc/tuned/profiles' if (
+        (ansible_distribution in ['Rocky', 'RedHat', 'AlmaLinux'] and ansible_distribution_major_version | int >= 10) or
+        (ansible_distribution == 'Ubuntu' and ansible_distribution_major_version | int >= 26)
+      ) else '/etc/tuned' }}
 
 - name: Create custom tuned profile directory.
   ansible.builtin.file:
@@ -20,12 +24,33 @@
     mode: "0644"
   register: profile_config
 
-- name: Get current active profile.
-  ansible.builtin.command: /usr/sbin/tuned-adm active
-  register: current_profile
-  changed_when: false
+- name: Set active tuned profile via symlink.
+  ansible.builtin.file:
+    src: "{{ tuned_profile_base_dir }}/{{ tuned_active_custom_profile.name }}"
+    dest: "/etc/tuned/active_profile"
+    state: link
+    force: true
+  register: active_link
 
-- name: Set custom tuned profile.
-  ansible.builtin.command: "/usr/sbin/tuned-adm profile {{ tuned_active_custom_profile.name }}"
-  when: tuned_active_custom_profile.name not in current_profile.stdout
-  changed_when: true
+- name: Check if custom profile is already active.
+  ansible.builtin.shell: |
+    set -e
+    tuned-adm active | grep -q "{{ tuned_active_custom_profile.name }}" && echo "active" || echo "not_active"
+  args:
+    executable: /bin/bash
+  register: profile_active_check
+  changed_when: false
+  failed_when: false
+  ignore_errors: true
+
+- name: Activate custom tuned profile.
+  ansible.builtin.shell: |
+    set -e
+    tuned-adm profile {{ tuned_active_custom_profile.name }}
+  args:
+    executable: /bin/bash
+  when: profile_active_check.stdout == "not_active"
+  register: profile_activation
+  changed_when: profile_activation.rc == 0
+  failed_when: false
+  ignore_errors: true

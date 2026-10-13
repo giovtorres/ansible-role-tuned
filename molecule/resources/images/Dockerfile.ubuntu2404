@@ -8,6 +8,10 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        systemd systemd-sysv \
        python3 python3-pip sudo bash iproute2 ca-certificates \
+       software-properties-common \
+    && add-apt-repository universe \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -22,6 +26,9 @@ RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
 
 # Enable systemd
 RUN systemctl set-default multi-user.target
+
+# Install pytest for testinfra verifier
+RUN pip3 install pytest testinfra --break-system-packages
 
 VOLUME [ "/sys/fs/cgroup" ]
 
