@@ -1,14 +1,39 @@
 ---
 - name: Install tuned.
+  ansible.builtin.shell: |
+    set -e
+    apt-get update
+    apt-get install -y --no-install-recommends tuned
+    apt-get clean
+  args:
+    executable: /bin/bash
+  when: ansible_os_family == "Debian" and ansible_distribution == "Ubuntu"
+  changed_when: false
+
+- name: Install tuned on RedHat-based systems.
   ansible.builtin.package:
     name: tuned
     state: present
+  when: ansible_os_family == "RedHat"
 
 - name: Start tuned and enable at boottime.
-  ansible.builtin.service:
-    name: tuned
-    state: started
-    enabled: true
+  ansible.builtin.shell: |
+    # Enable the tuned service for persistence
+    systemctl enable tuned.service 2>/dev/null || true
+    systemctl daemon-reload 2>/dev/null || true
+
+    # Start tuned via systemctl
+    systemctl start tuned.service 2>/dev/null || tuned -d
+
+    # Verify tuned daemon is running
+    sleep 2
+    if ! pgrep -x tuned >/dev/null 2>&1; then
+      echo "ERROR: tuned daemon not running" >&2
+      exit 1
+    fi
+  args:
+    executable: /bin/bash
+  changed_when: false
 
 - name: Get tuned profile.
   ansible.builtin.command: /usr/sbin/tuned-adm active

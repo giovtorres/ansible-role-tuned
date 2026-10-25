@@ -3,10 +3,9 @@
 # tuned {{ tuned_active_custom_profile.name }} configuration
 #
 
-{% for section in tuned_active_custom_profile.sections %}
+{%- for section in tuned_active_custom_profile.sections %}
 [{{ section.name }}]
-{% for item in section.params %}
+{%- for item in section.params %}
 {{ item.option }}={{ item.value }}
-{% endfor %}
-
+{%- endfor -%}
 {% endfor %}

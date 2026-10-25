@@ -4,10 +4,10 @@ Installs and configures the tuned daemon for setting system tuning profiles.
 
 ## Requirements
 
-- **Minimum Ansible version**: 2.16 (ansible-core 2.16+)
+- **Minimum Ansible version**: 2.19 (ansible-core 2.19+)
 - **Supported platforms**:
-  - Enterprise Linux 9, 10 (Rocky Linux, RHEL, AlmaLinux)
-  - Ubuntu 20.04 (Focal), 22.04 (Jammy), 24.04 (Noble)
+  - Enterprise Linux 9, 10 (Rocky Linux, RHEL, AlmaLinux, Oracle Linux)
+  - Ubuntu 22.04 (Jammy), 24.04 (Noble), 26.04 (Oracular)
 
 ## Role Variables
 

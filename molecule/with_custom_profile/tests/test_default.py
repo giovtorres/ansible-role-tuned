@@ -18,11 +18,11 @@ def test_tuned_running_and_enabled(host):
 
 
 def test_tuned_profile_file(host):
-    # Rocky 10 uses /etc/tuned/profiles/, others use /etc/tuned/
+    # EL 10+ and Ubuntu 26+ use /etc/tuned/profiles/, others use /etc/tuned/
     dist = host.system_info.distribution.lower()
     version = host.system_info.release
 
-    if 'rocky' in dist and version.startswith('10'):
+    if ('rocky' in dist and version.startswith('10')) or ('almalinux' in dist and version.startswith('10')) or ('ubuntu' in dist and version.startswith('26')):
         profile_path = "/etc/tuned/profiles/my_custom_profile/tuned.conf"
     else:
         profile_path = "/etc/tuned/my_custom_profile/tuned.conf"
